@@ -1,0 +1,100 @@
+(defwindow bar
+  :monitor 0
+  :geometry (geometry :x "0%"
+    :y "0%"
+    :width "1364px"
+    :height "40px"
+  :anchor "top center")
+  :stacking "fg"
+  :reserve (struts :distance "100px" :side "top")
+  :windowtype "dock"
+  :wm-ignore false
+  (bar))
+
+(deflisten ws
+`scripts/workspaces`)
+
+(deflisten win
+`scripts/win`)
+
+(deflisten song
+`scripts/music title`)
+
+(defpoll bat-icon :interval "1s"
+`scripts/bat icon`)
+
+(defpoll bat-perc :interval "1s"
+`scripts/bat percent`)
+
+(defpoll music-bool :interval "1s"
+`scripts/music stat`)
+
+(defpoll date :interval "1m"
+`date +" %I:%M %p   %m/%d/%Y"`)
+
+(defpoll vol :interval "1s"
+`pamixer --get-volume`)
+
+(defpoll updates :interval "5m"
+  :initial "0"
+`scripts/updates`)
+
+(defwidget left []
+  (box :orientation "h"
+    :space-evenly "false"
+    :halign "start"
+    :class "left"
+    (eventbox
+      :onscroll "scripts/scroll {}"
+      (literal :content ws)
+      
+    )))
+
+(defwidget center []
+  (box :class "center"
+    :space-evenly "false"
+    :halign "center"
+    :orientation "h"
+    :spacing "10"
+    (label :visible {!music-bool} :text win :class "win" :xalign "1" :yalign "0.5")
+    (label :visible music-bool :text song :class "win" :xalign "1" :yalign "0.5")
+    (button :visible music-bool :onclick "playerctl previous" :class "music-con" `ﭣ`)
+    (button :visible music-bool :onclick "playerctl play-pause" :class "music-con" ``)
+    (button :visible music-bool :onclick "playerctl next" :class "music-con" `ﭡ`)
+  )
+)
+(defwidget right []
+  (box :class "right-modules"
+    :space-evenly "false"
+    :halign "end"
+    :orientation "h"
+    :spacing "8"
+    (sysinfo)
+    (button :class "date" :onclick "eww open --toggle calendar"
+    `${date} `)
+  )
+)
+
+(defwidget sysinfo []
+  (box :class "sysinfo"
+    :space-evenly "true"
+    :halign "start"
+    :orientation "h"
+    :spacing "12"
+    (label :text "${bat-icon} ${bat-perc}%" :class "bat")
+    ;(label :text {EWW_CPU["cores"]["avg"]} :class "bat")
+    (button :class "vol" :onclick "pamixer -i 3" :onmiddleclick "pamixer --toggle-mute" :onrightclick "pamixer -d 3"
+    `蓼 ${vol}%`)
+    ;(label :text ` ${updates}`)
+  )
+)
+
+
+(defwidget bar []
+  (box :class "bar"
+    :orientation "h"
+    (left)
+    (center)
+    (right)
+  )
+)

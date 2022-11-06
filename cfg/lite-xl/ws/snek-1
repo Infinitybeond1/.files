@@ -1,0 +1,1 @@
+return { path = "/home/luke/snek", documents = {["type"]="leaf",["views"]={[1]={["filename"]="src/main.nim",["active"]=false,["type"]="doc",["text"]=false,["selection"]={[1]=86,[2]=2,[3]=86,[4]=2},["scroll"]={["y"]=2290.8801582654,["x"]=0}}},["active_view"]=1}, directories = {} }

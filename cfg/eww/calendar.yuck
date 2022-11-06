@@ -1,0 +1,21 @@
+(defwindow calendar
+  :geometry (geometry :x "80%"
+                      :y "6%" 
+                      :width "270px" 
+                      :height "60px")
+(cal))
+
+(defpoll day :interval "1h"
+  `date +%e`)
+
+(defpoll month :interval "1h"
+  `date +%-m`)
+
+(defpoll year :interval "1h"
+  `date +%Y`)
+
+(defwidget cal []
+  (box :class "cal-box" :orientation "v"
+    (calendar :class "cal" :day day :month month :year year)
+  )
+)

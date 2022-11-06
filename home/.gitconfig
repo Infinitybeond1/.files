@@ -1,0 +1,9 @@
+[user]
+	email = Infinitybeond1@protonmail.com
+	name = Luke
+[push]
+	autoSetupRemote = true
+[init]
+	defaultBranch = main
+[safe]
+	directory = /opt/flutter
